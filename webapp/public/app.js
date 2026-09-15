@@ -277,17 +277,35 @@ function scoreBadge(score) {
 function fileButton(row, field) {
   const link = row[`${field}Link`];
   if (!link) return document.createTextNode('—');
-  const btn = document.createElement('button');
-  btn.className = 'btn-link';
-  btn.textContent = 'Open';
-  btn.onclick = async () => {
+
+  const wrap = document.createElement('span');
+  wrap.className = 'file-actions';
+
+  const openBtn = document.createElement('button');
+  openBtn.className = 'btn-link';
+  openBtn.textContent = 'Open';
+  openBtn.title = 'Open in your default PDF viewer';
+  openBtn.onclick = async () => {
     const res = await fetch(`/api/open?link=${encodeURIComponent(link)}`);
     if (!res.ok) {
       const body = await res.json().catch(() => ({}));
       alert(body.error || 'Could not open file');
     }
   };
-  return btn;
+  wrap.appendChild(openBtn);
+
+  // A real <a download> hitting a server route that sets
+  // Content-Disposition: attachment — the browser saves the file under a
+  // name derived from the posting (e.g. "acme_backend-engineer_ab12_resume.pdf")
+  // instead of the generic "resume.pdf" every one of these is saved as on disk.
+  const downloadLink = document.createElement('a');
+  downloadLink.className = 'btn-link';
+  downloadLink.textContent = '⬇';
+  downloadLink.title = 'Download PDF';
+  downloadLink.href = `/api/download?link=${encodeURIComponent(link)}`;
+  wrap.appendChild(downloadLink);
+
+  return wrap;
 }
 
 function appliedOnInput(row) {

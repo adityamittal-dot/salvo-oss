@@ -82,6 +82,10 @@ body {
   font-size: 0.78rem;
 }
 .btn-link:hover { background: var(--row-hover); }
+a.btn-link { display: inline-block; text-decoration: none; line-height: 1.1; }
+
+.file-actions { display: inline-flex; gap: 4px; align-items: center; }
+.file-actions .btn-link:last-child { padding: 4px 8px; }
 
 .summary {
   display: grid;

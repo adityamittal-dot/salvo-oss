@@ -6,7 +6,7 @@
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
-import { extname, join, dirname, resolve, sep } from 'node:path';
+import { basename, extname, join, dirname, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
 import ExcelJS from 'exceljs';
@@ -144,33 +144,62 @@ function findRowByUrl(sheet, url) {
   return found;
 }
 
-// Opens a resume/cover-letter PDF with the OS default viewer. Restricted to
-// files under data/generated (where tailor.mjs/manual-tailor.mjs write them)
-// so this can't be turned into an arbitrary-file-open — it's only ever
-// reachable from localhost anyway, but no reason to be sloppy about it.
-async function handleOpenFile(url, res) {
-  // The dashboard only ever has the file:// hyperlink the tracker stored on
-  // the cell (see tracker.mjs's writeSheet — resumeFile/coverFile cells are
-  // `{ text: 'Open', hyperlink: pathToFileURL(path).href }`), not a raw
-  // filesystem path, so that's what's accepted and converted back here.
-  const link = url.searchParams.get('link');
-  if (!link) return sendJson(res, 400, { error: 'link is required' });
+// Shared by /api/open and /api/download: the dashboard only ever has the
+// file:// hyperlink the tracker stored on the cell (see tracker.mjs's
+// writeSheet — resumeFile/coverFile cells are `{ text: 'Open', hyperlink:
+// pathToFileURL(path).href }`), not a raw filesystem path, so that's what's
+// accepted and converted back here. Restricted to files under
+// data/generated (where tailor.mjs/manual-tailor.mjs write them) so this
+// can't be turned into an arbitrary-file-read/open — it's only ever reachable
+// from localhost anyway, but no reason to be sloppy about it.
+function resolveGeneratedFile(link) {
+  if (!link) return { error: 'link is required', status: 400 };
   let filePath;
   try {
     filePath = fileURLToPath(link);
   } catch {
-    return sendJson(res, 400, { error: 'link is not a valid file:// URL' });
+    return { error: 'link is not a valid file:// URL', status: 400 };
   }
   const resolved = resolve(filePath);
   if (!resolved.startsWith(GENERATED_DIR + sep) || !existsSync(resolved)) {
-    return sendJson(res, 403, { error: 'refusing to open a path outside data/generated' });
+    return { error: 'refusing to access a path outside data/generated', status: 403 };
   }
+  return { path: resolved };
+}
+
+// Opens a resume/cover-letter PDF with the OS default viewer (in place, not
+// downloaded) — handy when you just want to glance at it.
+async function handleOpenFile(url, res) {
+  const { path: resolved, error, status } = resolveGeneratedFile(url.searchParams.get('link'));
+  if (error) return sendJson(res, status, { error });
+
   const child =
     process.platform === 'win32'
       ? spawn('cmd', ['/c', 'start', '""', resolved], { detached: true, stdio: 'ignore' })
       : spawn(process.platform === 'darwin' ? 'open' : 'xdg-open', [resolved], { detached: true, stdio: 'ignore' });
   child.unref();
   sendJson(res, 200, { ok: true });
+}
+
+// Downloads a resume/cover-letter PDF as a real file-save, named after the
+// company + posting (its own folder name under data/generated) rather than
+// the generic "resume.pdf"/"cover-letter.pdf" every one of these is saved
+// as on disk — useful the moment you have more than one tab's worth open.
+async function handleDownloadFile(url, res) {
+  const { path: resolved, error, status } = resolveGeneratedFile(url.searchParams.get('link'));
+  if (error) return sendJson(res, status, { error });
+
+  const slug = basename(dirname(resolved));
+  const kind = basename(resolved, extname(resolved)); // "resume" or "cover-letter"
+  const downloadName = `${slug}-${kind}.pdf`;
+
+  const body = await readFile(resolved);
+  res.writeHead(200, {
+    'Content-Type': 'application/pdf',
+    'Content-Disposition': `attachment; filename="${downloadName}"`,
+    'Content-Length': body.length,
+  });
+  res.end(body);
 }
 
 function sendJson(res, status, body) {
@@ -216,6 +245,7 @@ const server = createServer(async (req, res) => {
     if (url.pathname === '/api/data' && req.method === 'GET') return await handleGetData(res);
     if (url.pathname === '/api/row' && req.method === 'PATCH') return await handlePatchRow(req, res);
     if (url.pathname === '/api/open' && req.method === 'GET') return await handleOpenFile(url, res);
+    if (url.pathname === '/api/download' && req.method === 'GET') return await handleDownloadFile(url, res);
     if (req.method === 'GET') return await serveStatic(url.pathname, res);
     res.writeHead(405);
     res.end('Method not allowed');
