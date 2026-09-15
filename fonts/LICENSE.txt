@@ -1,0 +1,13 @@
+Computer Modern Unicode (CMU Serif) fonts — SIL Open Font License.
+
+Source: https://cm-unicode.sourceforge.io/ (original CMU project)
+Repackaged as webfonts by the npm package "computer-modern"
+(https://github.com/stevenpetryk/computer-modern, MIT-licensed wrapper).
+
+Full license text: http://scripts.sil.org/OFL
+
+These font files are the same Computer Modern family the candidate's
+resume.pdf was actually typeset in (confirmed by inspecting the PDF's
+embedded font names: CMR10/12, CMBX10/12, CMTI12 — Computer Modern Roman,
+Bold Extended, and Text Italic). Used here so the generated resumes render
+in the same typeface as the original, not a substitute.

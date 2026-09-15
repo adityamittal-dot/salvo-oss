@@ -1,0 +1,330 @@
+# What gets scanned. Two lists, same entry contract.
+#
+# `job_boards:`       one entry per aggregator/feed (many employers)
+# `tracked_companies:` one entry per employer, resolved by ATS slug
+#
+# The slugs below are a SEED LIST and are not all guaranteed live — ATS slugs
+# change and boards get retired. Run `node verify-boards.mjs` to probe every
+# entry and print which are alive, empty, or 404. Prune from there.
+
+job_boards:
+  - name: RemoteOK
+    provider: remoteok
+
+  - name: Remotive
+    provider: remotive
+    category: software-dev
+
+  - name: HN Who Is Hiring
+    provider: hn-hiring
+
+  # Community-maintained lists on GitHub. Structured JSON, links go straight to
+  # the employer's own application page.
+  - name: Simplify Internships 2027
+    provider: simplify-github
+    repo: internships-2027
+
+  - name: Simplify New Grad
+    provider: simplify-github
+    repo: new-grad
+
+  # India-market internships/entry-level jobs — public search API, no login
+  # (robots.txt explicitly allows /api/public/*). Paid-only filtering happens
+  # inside the provider itself.
+  - name: Unstop (India)
+    provider: unstop
+
+tracked_companies:
+  # --- Ashby (YC-heavy) ---
+  - name: Linear
+    careers_url: https://jobs.ashbyhq.com/linear
+  - name: PostHog
+    careers_url: https://jobs.ashbyhq.com/posthog
+  - name: Replit
+    careers_url: https://jobs.ashbyhq.com/replit
+  - name: Supabase
+    careers_url: https://jobs.ashbyhq.com/supabase
+  - name: Vanta
+    careers_url: https://jobs.ashbyhq.com/vanta
+  - name: Deel
+    careers_url: https://jobs.ashbyhq.com/deel
+  - name: Clerk
+    careers_url: https://jobs.ashbyhq.com/clerk
+  - name: Resend
+    careers_url: https://jobs.ashbyhq.com/resend
+
+  # --- Greenhouse ---
+  - name: GitLab
+    careers_url: https://boards.greenhouse.io/gitlab
+  - name: Cloudflare
+    careers_url: https://boards.greenhouse.io/cloudflare
+  - name: Stripe
+    careers_url: https://boards.greenhouse.io/stripe
+  - name: Figma
+    careers_url: https://boards.greenhouse.io/figma
+  - name: Discord
+    careers_url: https://boards.greenhouse.io/discord
+  - name: Databricks
+    careers_url: https://boards.greenhouse.io/databricks
+  - name: Twilio
+    careers_url: https://boards.greenhouse.io/twilio
+  - name: Grafana Labs
+    careers_url: https://boards.greenhouse.io/grafanalabs
+
+  # --- Lever ---
+  - name: Mistral AI
+    careers_url: https://jobs.lever.co/mistral
+
+  # --- Expanded set: career-ops verified slugs + candidates. Pruned by verify-boards. ---
+  - name: AlephAlpha
+    careers_url: https://jobs.ashbyhq.com/AlephAlpha
+  - name: DeepL
+    careers_url: https://jobs.ashbyhq.com/DeepL
+  - name: Andela
+    careers_url: https://jobs.ashbyhq.com/andela
+  - name: Attio
+    careers_url: https://jobs.ashbyhq.com/attio
+  - name: Bland
+    careers_url: https://jobs.ashbyhq.com/bland
+  - name: Bolt
+    careers_url: https://jobs.ashbyhq.com/bolt
+  - name: Causaly
+    careers_url: https://jobs.ashbyhq.com/causaly
+  - name: Claylabs
+    careers_url: https://jobs.ashbyhq.com/claylabs
+  - name: Cohere
+    careers_url: https://jobs.ashbyhq.com/cohere
+  - name: Corti
+    careers_url: https://jobs.ashbyhq.com/corti
+  - name: Cradlebio
+    careers_url: https://jobs.ashbyhq.com/cradlebio
+  - name: Decagon
+    careers_url: https://jobs.ashbyhq.com/decagon
+  - name: Deepgram
+    careers_url: https://jobs.ashbyhq.com/deepgram
+  - name: Elevenlabs
+    careers_url: https://jobs.ashbyhq.com/elevenlabs
+  - name: Faculty
+    careers_url: https://jobs.ashbyhq.com/faculty
+  - name: Forto
+    careers_url: https://jobs.ashbyhq.com/forto
+  - name: Glacis Ai
+    careers_url: https://jobs.ashbyhq.com/glacis-ai
+  - name: Inngest
+    careers_url: https://jobs.ashbyhq.com/inngest
+  - name: Klue
+    careers_url: https://jobs.ashbyhq.com/klue
+  - name: Lakera Ai
+    careers_url: https://jobs.ashbyhq.com/lakera.ai
+  - name: Langchain
+    careers_url: https://jobs.ashbyhq.com/langchain
+  - name: Legora
+    careers_url: https://jobs.ashbyhq.com/legora
+  - name: Lovable
+    careers_url: https://jobs.ashbyhq.com/lovable
+  - name: Mollie
+    careers_url: https://jobs.ashbyhq.com/mollie
+  - name: N8n
+    careers_url: https://jobs.ashbyhq.com/n8n
+  - name: Perk
+    careers_url: https://jobs.ashbyhq.com/perk
+  - name: Perplexity
+    careers_url: https://jobs.ashbyhq.com/perplexity
+  - name: Photoroom
+    careers_url: https://jobs.ashbyhq.com/photoroom
+  - name: Pinecone
+    careers_url: https://jobs.ashbyhq.com/pinecone
+  - name: Pleo
+    careers_url: https://jobs.ashbyhq.com/pleo
+  - name: Sierra
+    careers_url: https://jobs.ashbyhq.com/sierra
+  - name: Synthesia
+    careers_url: https://jobs.ashbyhq.com/synthesia
+  - name: Vapi
+    careers_url: https://jobs.ashbyhq.com/vapi
+  - name: Workos
+    careers_url: https://jobs.ashbyhq.com/workos
+  - name: Zapier
+    careers_url: https://jobs.ashbyhq.com/zapier
+  - name: Contentsquare
+    careers_url: https://jobs.lever.co/contentsquare
+  - name: Palantir
+    careers_url: https://jobs.lever.co/palantir
+  - name: Pigment
+    careers_url: https://jobs.lever.co/pigment
+  - name: Qonto
+    careers_url: https://jobs.lever.co/qonto
+  - name: Spotify
+    careers_url: https://jobs.lever.co/spotify
+  - name: Airtable
+    careers_url: https://boards.greenhouse.io/airtable
+  - name: Amplemarket
+    careers_url: https://boards.greenhouse.io/amplemarket
+  - name: Anthropic
+    careers_url: https://boards.greenhouse.io/anthropic
+  - name: Arizeai
+    careers_url: https://boards.greenhouse.io/arizeai
+  - name: Boomilp
+    careers_url: https://boards.greenhouse.io/boomilp
+  - name: Celonis
+    careers_url: https://boards.greenhouse.io/celonis
+  - name: Contentful
+    careers_url: https://boards.greenhouse.io/contentful
+  - name: Coreweave
+    careers_url: https://boards.greenhouse.io/coreweave
+  - name: Getyourguide
+    careers_url: https://boards.greenhouse.io/getyourguide
+  - name: Gleanwork
+    careers_url: https://boards.greenhouse.io/gleanwork
+  - name: Hellofresh
+    careers_url: https://boards.greenhouse.io/hellofresh
+  - name: Helsing
+    careers_url: https://boards.greenhouse.io/helsing
+  - name: Hightouch
+    careers_url: https://boards.greenhouse.io/hightouch
+  - name: Hootsuite
+    careers_url: https://boards.greenhouse.io/hootsuite
+  - name: Humeai
+    careers_url: https://boards.greenhouse.io/humeai
+  - name: Intercom
+    careers_url: https://boards.greenhouse.io/intercom
+  - name: Isomorphiclabs
+    careers_url: https://boards.greenhouse.io/isomorphiclabs
+  - name: Jumia
+    careers_url: https://boards.greenhouse.io/jumia
+  - name: Later
+    careers_url: https://boards.greenhouse.io/later
+  - name: Moniepoint
+    careers_url: https://boards.greenhouse.io/moniepoint
+  - name: N26
+    careers_url: https://boards.greenhouse.io/n26
+  - name: Parloa
+    careers_url: https://boards.greenhouse.io/parloa
+  - name: Physicsx
+    careers_url: https://boards.greenhouse.io/physicsx
+  - name: Planetscale
+    careers_url: https://boards.greenhouse.io/planetscale
+  - name: Polyai
+    careers_url: https://boards.greenhouse.io/polyai
+  - name: Safariai
+    careers_url: https://boards.greenhouse.io/safariai
+  - name: Scandit
+    careers_url: https://boards.greenhouse.io/scandit
+  - name: Speechmatics
+    careers_url: https://boards.greenhouse.io/speechmatics
+  - name: Stabilityai
+    careers_url: https://boards.greenhouse.io/stabilityai
+  - name: Sumup
+    careers_url: https://boards.greenhouse.io/sumup
+  - name: Traderepublicbank
+    careers_url: https://boards.greenhouse.io/traderepublicbank
+  - name: Vercel
+    careers_url: https://boards.greenhouse.io/vercel
+  - name: Wayve
+    careers_url: https://boards.greenhouse.io/wayve
+  - name: Openai
+    careers_url: https://jobs.ashbyhq.com/openai
+  - name: Ramp
+    careers_url: https://jobs.ashbyhq.com/ramp
+  - name: Notion
+    careers_url: https://jobs.ashbyhq.com/notion
+  - name: Cursor
+    careers_url: https://jobs.ashbyhq.com/cursor
+  - name: Browserbase
+    careers_url: https://jobs.ashbyhq.com/browserbase
+  - name: Warp
+    careers_url: https://jobs.ashbyhq.com/warp
+  - name: Render
+    careers_url: https://jobs.ashbyhq.com/render
+  - name: Mintlify
+    careers_url: https://jobs.ashbyhq.com/mintlify
+  - name: Modal
+    careers_url: https://jobs.ashbyhq.com/modal
+  - name: Baseten
+    careers_url: https://jobs.ashbyhq.com/baseten
+  - name: Harvey
+    careers_url: https://jobs.ashbyhq.com/harvey
+  - name: Writer
+    careers_url: https://jobs.ashbyhq.com/writer
+  - name: Doppler
+    careers_url: https://jobs.ashbyhq.com/doppler
+  - name: Zed
+    careers_url: https://jobs.ashbyhq.com/zed
+  - name: Pylon
+    careers_url: https://jobs.ashbyhq.com/pylon
+  - name: Airbnb
+    careers_url: https://boards.greenhouse.io/airbnb
+  - name: Reddit
+    careers_url: https://boards.greenhouse.io/reddit
+  - name: Robinhood
+    careers_url: https://boards.greenhouse.io/robinhood
+  - name: Instacart
+    careers_url: https://boards.greenhouse.io/instacart
+  - name: Duolingo
+    careers_url: https://boards.greenhouse.io/duolingo
+  - name: Coinbase
+    careers_url: https://boards.greenhouse.io/coinbase
+  - name: Dropbox
+    careers_url: https://boards.greenhouse.io/dropbox
+  - name: Asana
+    careers_url: https://boards.greenhouse.io/asana
+  - name: Mongodb
+    careers_url: https://boards.greenhouse.io/mongodb
+  - name: Elastic
+    careers_url: https://boards.greenhouse.io/elastic
+  - name: Samsara
+    careers_url: https://boards.greenhouse.io/samsara
+  - name: Flexport
+    careers_url: https://boards.greenhouse.io/flexport
+  - name: Affirm
+    careers_url: https://boards.greenhouse.io/affirm
+  - name: Pinterest
+    careers_url: https://boards.greenhouse.io/pinterest
+  - name: Lyft
+    careers_url: https://boards.greenhouse.io/lyft
+  - name: Okta
+    careers_url: https://boards.greenhouse.io/okta
+  - name: Chime
+    careers_url: https://boards.greenhouse.io/chime
+  - name: Brex
+    careers_url: https://boards.greenhouse.io/brex
+  - name: Scaleai
+    careers_url: https://boards.greenhouse.io/scaleai
+  - name: Datadog
+    careers_url: https://boards.greenhouse.io/datadog
+  - name: Postman
+    careers_url: https://boards.greenhouse.io/postman
+  - name: Launchdarkly
+    careers_url: https://boards.greenhouse.io/launchdarkly
+  - name: Circleci
+    careers_url: https://boards.greenhouse.io/circleci
+  - name: Pagerduty
+    careers_url: https://boards.greenhouse.io/pagerduty
+  - name: Remotecom
+    careers_url: https://boards.greenhouse.io/remotecom
+  - name: Zoox
+    careers_url: https://jobs.lever.co/zoox
+  - name: Whoop
+    careers_url: https://jobs.lever.co/whoop
+  - name: Kraken
+    careers_url: https://jobs.lever.co/kraken
+  - name: Ledger
+    careers_url: https://jobs.lever.co/ledger
+
+  # --- 2026-09-14 expansion: more YC / big-tech / MNC candidates. Unverified
+  # slugs — run `node verify-boards.mjs --prune` after adding, same as the
+  # rest of this seed list, don't trust by inspection alone. ---
+  - name: Vercel
+    careers_url: https://jobs.ashbyhq.com/vercel
+  - name: Hex
+    careers_url: https://jobs.ashbyhq.com/hex
+  - name: Gusto
+    careers_url: https://boards.greenhouse.io/gusto
+  - name: Squarespace
+    careers_url: https://boards.greenhouse.io/squarespace
+  - name: New Relic
+    careers_url: https://boards.greenhouse.io/newrelic
+  - name: Twitch
+    careers_url: https://boards.greenhouse.io/twitch
+  - name: Zscaler
+    careers_url: https://boards.greenhouse.io/zscaler

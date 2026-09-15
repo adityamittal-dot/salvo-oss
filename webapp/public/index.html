@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Salvo — Application Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>Salvo</h1>
+    <div class="topbar-actions">
+      <span id="lastUpdated" class="muted"></span>
+      <button id="refreshBtn" class="btn">Refresh</button>
+    </div>
+  </header>
+
+  <section id="summary" class="summary"></section>
+
+  <nav class="tabs" id="tabs"></nav>
+
+  <section class="toolbar">
+    <input id="searchBox" type="search" placeholder="Search company, role, location..." />
+    <select id="statusFilter">
+      <option value="">All statuses</option>
+    </select>
+    <span id="rowCount" class="muted"></span>
+  </section>
+
+  <section class="table-wrap">
+    <table id="table">
+      <thead></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>

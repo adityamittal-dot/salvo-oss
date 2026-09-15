@@ -1,0 +1,28 @@
+# Credentials — never commit
+.env
+.env.local
+auth/sessions/
+*.session.json
+
+# Your personal, filled-in config — copy from the .example files instead
+config/profile.yaml
+config/portfolio.yaml
+
+# Your real resume/tailored output — entirely personal, generated fresh per user
+data/resume/resume.md
+data/resume/*.pdf
+data/generated/
+data/applications.xlsx
+data/pipeline.json
+data/pipeline-india.json
+data/todo*.json
+data/scored.json
+data/logs/
+
+node_modules/
+.playwright/
+.playwright-mcp/
+test-results/
+*.log
+.DS_Store
+Thumbs.db

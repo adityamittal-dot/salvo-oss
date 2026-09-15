@@ -1,0 +1,32 @@
+{
+  "name": "salvo-oss",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Zero-auth job discovery, fit-scoring, and application prep for remote/global tech roles — you customize the profile, it finds and ranks postings, tailors resumes, and tracks everything in an Excel file with a local dashboard.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "scan": "node scan.mjs",
+    "scan-india": "node scan-india.mjs",
+    "verify": "node verify-boards.mjs",
+    "tailor": "node tailor.mjs",
+    "batch-tailor": "node batch-tailor.mjs",
+    "manual-tailor": "node manual-tailor.mjs",
+    "re-render": "node re-render.mjs",
+    "prep": "node prep-applications.mjs",
+    "track": "node tracker.mjs",
+    "dashboard": "node webapp/server.mjs",
+    "daily": "node daily.mjs",
+    "login": "node auth/login.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.125.0",
+    "@google/generative-ai": "^0.24.1",
+    "dotenv": "^16.4.5",
+    "exceljs": "^4.4.0",
+    "js-yaml": "^4.1.0",
+    "playwright": "^1.48.0"
+  }
+}

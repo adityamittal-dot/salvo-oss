@@ -1,0 +1,159 @@
+# Your search profile. Drives discovery filtering, fit-scoring, and
+# form-filling. Copy this file to `profile.yaml` (gitignored — it's yours,
+# it stays local) and fill in your own details.
+#
+#   cp config/profile.example.yaml config/profile.yaml
+#
+# Keep `config/profile.yaml` in sync with whatever you put in
+# `data/resume/resume.md` — the tailoring step only ever reorders/rephrases
+# facts that already exist in your resume + portfolio, so if your profile
+# says "backend engineer" but your resume has zero backend evidence, you'll
+# get weak keyword matches, not fabricated ones (that's a hard rule, see
+# modes/tailor-resume.md).
+
+identity:
+  name: Your Name
+  email: you@example.com
+  phone: "+1-555-000-0000"
+  github: your-github-username
+  linkedin: https://www.linkedin.com/in/your-linkedin/
+  location: Your City, Your State/Country
+  country: Your Country
+  timezone: Your/Timezone
+  education: Degree, School Name, Start–End Year
+  graduation_year: 2027
+
+# What you're actually targeting. Titles are OR'd together — a posting only
+# needs to match ONE of these to pass the title filter. exclude_titles is
+# checked first and always wins (a match there drops the posting regardless
+# of what else matches).
+target:
+  titles:
+    - software engineer
+    - backend engineer
+    - full stack
+    # Add every phrasing you'd actually apply to. Be generous — this list is
+    # what makes or breaks how much supply the scan finds. Real gaps found in
+    # production use of this tool: reversed word order ("Engineer - Quality"
+    # vs "Quality Engineer"), swapped terms ("Founding Engineer" vs "Engineer,
+    # Founding"), and missing plain synonyms — check your actual results and
+    # add what you're missing.
+
+  internship_titles:
+    - intern
+    - internship
+    - new grad
+    - graduate engineer
+    - entry level
+
+  # Standalone level/seniority markers. Checked against the title only.
+  exclude_titles:
+    - senior
+    - staff
+    - principal
+    - director
+    - manager
+    - lead engineer
+    # A seniority-designation gap found the hard way: "Software Engineer II"
+    # / "SDE 2" are real mid-level titles at most companies even though
+    # nothing says "senior" — the roman numeral / digit IS the signal.
+    - "engineer ii"
+    - "engineer 2"
+    - "sde 2"
+    # If a role type isn't your direction even though your resume could
+    # plausibly match on keywords alone, exclude it explicitly here — keyword
+    # scoring alone won't catch a domain mismatch like this.
+    - qa
+    - quality assurance
+    - test engineer
+
+  # tech_domain_markers is used ONLY alongside internship_titles (see
+  # titleMatches in lib/filter.mjs): an internship-signal word ("intern",
+  # "new grad"...) alone is NOT enough to admit a posting — it also needs one
+  # of these. Without this, generic non-tech internships ("Finance Analytics
+  # Intern", "Global Early Career Professional") leak in on the word "intern"
+  # alone. A direct `titles` match doesn't need this at all.
+  tech_domain_markers:
+    - software
+    - developer
+    - engineer
+    - engineering
+    - backend
+    - full stack
+    - devops
+    - cloud
+    - data engineer
+    - machine learning
+
+  min_years_experience: 0
+  max_years_experience: 1
+
+location:
+  # If true, a posting must match something in `allow` (checked against the
+  # location field + title) to pass — good for a remote-only, work-from-
+  # anywhere search. Set false if you want onsite/hybrid roles included too
+  # (see scan-india.mjs for an example of a second, region-specific pass with
+  # its own looser location rule).
+  remote_only: true
+  # Your country/city/region names here also drive a scoring bonus in
+  # lib/filter.mjs (scoreJob's "home-region eligible" branch) — it's not
+  # hardcoded to any one country, it reads directly from this list.
+  allow:
+    - remote
+    - worldwide
+    - anywhere
+    - your country name
+    - your city
+    - your region (e.g. apac, emea)
+
+  # Geographic restrictions that make a role unattainable for you. Checked
+  # against the whole posting; overrides `allow`.
+  deny:
+    - us only
+    - must be located in
+    - must be a us citizen
+    - security clearance
+    # Add whatever citizenship/location phrase actually disqualifies you.
+
+compensation:
+  deny:
+    - unpaid internship
+    - no compensation
+    - no stipend
+    - volunteer position
+
+preference:
+  prefer_yc: true
+  boost_keywords:
+    - hire globally
+    - remote-first
+    - visa sponsorship
+    - yc
+    - y combinator
+  penalty_keywords:
+    - us citizens only
+    - security clearance
+    - onsite required
+    - 5+ years
+
+# Pulled from your resume — weight toward the direction you actually want a
+# role in, so ranking doesn't drag you toward a skill you have but don't
+# want to be hired for.
+skills:
+  primary:
+    - python
+    - your-main-language
+    - your-main-framework
+  secondary:
+    - your-secondary-tools
+
+# Mass-apply mode: anything that survives the filters and isn't blocked gets
+# prepared. The score orders the queue, it doesn't gate it — raise apply_min
+# if you want fewer, higher-confidence matches instead.
+scoring:
+  apply_min: 1.5
+  review_min: 1.0
+  daily_apply_target: 25
+  max_per_company: 3
+
+freshness_days: 30

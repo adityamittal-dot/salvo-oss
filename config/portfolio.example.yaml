@@ -1,0 +1,54 @@
+# Source-of-truth project facts for resume tailoring. Copy this to
+# `portfolio.yaml` (gitignored) and replace the example project below with
+# your own real, verified projects.
+#
+#   cp config/portfolio.example.yaml config/portfolio.yaml
+#
+# Every fact you put here should be verified against the actual project (its
+# README, its source code, a real commit) — not copy-pasted from your resume.
+# The tailoring prompt (modes/tailor-resume.md) is only allowed to reorder,
+# rephrase, and SELECT from what's in this file — it will never invent a
+# technology, number, or claim that isn't listed here. That's the whole
+# point of keeping this file separate and precise: garbage in, garbage out,
+# but also nothing fabricated out.
+#
+# Add as many projects as you have — priority controls which ones the
+# tailoring prompt reaches for first (see modes/tailor-resume.md's project-
+# selection rule), but every project you list is fair game to be selected
+# when it's the better fit for a specific posting.
+
+projects:
+  - id: example-project
+    name: Example Project
+    repo: https://github.com/your-username/example-project
+    live: null # set this if it's deployed somewhere real — omit/null otherwise
+    stack: "Python, PostgreSQL, React, Docker"
+    dates: "Jan 2026 – Mar 2026"
+    priority: 1
+    tags: [backend, api, postgresql, docker]
+    facts:
+      # Write these as complete, specific, verifiable claims — the more
+      # concrete and technical, the more the tailoring step has to work
+      # with. Vague claims ("built a scalable backend") give the model
+      # nothing real to select from. Specific claims ("added a Postgres
+      # unique constraint plus a retry-on-conflict loop to fix a double-
+      # booking race condition") do.
+      - "One fact per real, checkable thing you built. Include the actual
+         technology used for that specific claim — don't let a later JD-
+         driven rewrite attach a technology to a claim that never named it."
+      - "A second fact, e.g. about a specific architectural decision and why
+         you made it — decisions with a stated tradeoff read as far stronger
+         evidence than a plain feature list."
+      - "A third fact about testing, scale, or a concrete metric you can
+         stand behind if asked about it in an interview."
+
+  # - id: second-project
+  #   name: Second Project
+  #   repo: https://github.com/your-username/second-project
+  #   live: null
+  #   stack: "Node.js, Express, MongoDB"
+  #   dates: "2025"
+  #   priority: 2
+  #   tags: [fullstack, nodejs, mongodb]
+  #   facts:
+  #     - "..."
