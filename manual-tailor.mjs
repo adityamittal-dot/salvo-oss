@@ -1,15 +1,20 @@
-// Tailors a resume with NO API call and NO API key — for when a Claude Code
-// session is doing the generation itself (covered by an existing Claude
-// subscription) instead of tailor.mjs calling a billed API.
+// Tailors a resume with NO API call, NO API key, and NO AI subscription of
+// any kind required — you (or any free tool you choose) produce the JSON by
+// hand instead of tailor.mjs calling a billed API.
 //
 // Two-step flow:
 //   1. node manual-tailor.mjs --url "<posting url>" --show-prompt
 //      Prints the exact same system prompt + JD text tailor.mjs would send
 //      to an API — the master resume, portfolio.yaml project facts, and the
 //      modes/tailor-resume.md rules (never invent, full skills list, one
-//      page, prefer your strongest portfolio.yaml project, etc). Read this, then produce a JSON
-//      object matching the schema in modes/tailor-resume.md's "Output format"
-//      section: { resume: {...}, coverLetter: "...", keywordReport: {...} }.
+//      page, prefer your strongest portfolio.yaml project, etc). Read this,
+//      then produce a JSON object matching the schema in
+//      modes/tailor-resume.md's "Output format" section:
+//      { resume: {...}, coverLetter: "...", keywordReport: {...} } — write
+//      it yourself, or paste the prompt into any free chatbot (a browser
+//      ChatGPT/Gemini/Claude.ai session, a local model, whatever you have)
+//      and paste back its answer. No paid API key or subscription is needed
+//      anywhere in this step.
 //   2. Write that JSON to a file (the scratchpad — anywhere readable), then:
 //      node manual-tailor.mjs --url "<posting url>" --json "<path to that file>"
 //      Runs the exact same finalize step tailor.mjs uses after an API call:

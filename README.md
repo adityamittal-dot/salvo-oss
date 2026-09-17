@@ -8,6 +8,15 @@ posting, tracks everything in an Excel file, and gives you a local dashboard
 to manage it — but it never submits an application for you. You review and
 click submit yourself.
 
+**No Claude subscription, no paid API key, and no AI account of any kind is
+required to use this end to end.** Discovery, scoring, and tracking
+(`scan.mjs`, `tracker.mjs`, the dashboard) are 100% rule-based and run fully
+offline. Resume/cover-letter tailoring can go through a billed LLM API
+(`batch-tailor.mjs`) if you want the whole day's queue done in one shot, but
+`manual-tailor.mjs` gets you the identical output for free — you write the
+tailored JSON yourself, or paste the prompt into any free chatbot you already
+have access to.
+
 Modelled in part on [career-ops](https://github.com/career-ops-hq/career-ops):
 the provider layer, the zero-auth discovery approach, and the
 human-clicks-submit rule are all in that spirit. Everything else — the
@@ -46,8 +55,8 @@ This tool takes a narrower, more honest position:
 scan.mjs             discover + filter + score postings          (global, remote-first)
 scan-india.mjs        └─ example: a second pass with its own location rule (see below)
   ↓ data/pipeline.json / data/pipeline-india.json
-manual-tailor.mjs     tailor a resume + cover letter, zero API cost (you draft it via Claude Code)
-batch-tailor.mjs      ...or the same thing via a billed Claude/Gemini API call
+manual-tailor.mjs     tailor a resume + cover letter, zero cost, no AI subscription needed
+batch-tailor.mjs      ...or the same thing via a billed Claude/Gemini API call (optional)
   ↓ data/generated/<company>_<role>_<hash>/{resume.pdf, cover-letter.pdf, meta.json}
 tracker.mjs           merge everything into data/applications.xlsx
 webapp/server.mjs     a local dashboard over that same Excel file
@@ -106,11 +115,14 @@ are tracked in git:
 Two ways to run it, same output:
 
 - **`npm run manual-tailor -- --url "<posting url>" --show-prompt`** — zero
-  API cost. Prints the exact prompt (rules + your resume + your portfolio
-  facts + the job description); you draft the tailored resume JSON yourself
-  (e.g. by pasting into a Claude Code session), save it to a file, then run
-  `npm run manual-tailor -- --url "<posting url>" --json "<path>"` to render
-  the actual PDF. This is the path if you don't want to pay for an API.
+  API cost, and no AI subscription required at all. Prints the exact prompt
+  (rules + your resume + your portfolio facts + the job description); you
+  produce the tailored resume JSON — by writing it yourself, or by pasting
+  the prompt into any free chatbot you already have access to (a browser
+  ChatGPT/Gemini/Claude.ai session, a local model, etc.) — save the result to
+  a file, then run `npm run manual-tailor -- --url "<posting url>" --json
+  "<path>"` to render the actual PDF. This is the path if you don't want to
+  pay for an API or hold any AI subscription.
 - **`npm run batch-tailor`** — tailors the whole day's queue via a billed
   Claude or Gemini API call (set `ANTHROPIC_API_KEY` / `GEMINI_API_KEY` in
   `.env`). Costs roughly $0.02–0.03/resume on `claude-haiku-4-5`.
