@@ -24,10 +24,6 @@ const SITES = {
     url: 'https://wellfound.com/login',
     note: 'Startup/remote roles. Moderate automation sensitivity.',
   },
-  yc: {
-    url: 'https://www.workatastartup.com/companies',
-    note: 'YC Work at a Startup. Requires a YC account (free).',
-  },
   simplify: {
     url: 'https://simplify.jobs/auth/login',
     note: 'Internship / new-grad focused.',
